@@ -2,6 +2,7 @@
 
 import { questionsByWeek } from "@/data/questions";
 import { ArrowLeft, Check, X, RefreshCw } from "lucide-react";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { useState, useEffect } from "react";
 import { Question } from "@/types/Question";
 import Link from "next/link";
@@ -140,7 +141,7 @@ export default function QuizPage({ params }: { params: { week: string } }) {
             </div>
           </div>
         ))}
-
+        <SpeedInsights />
         {!quizCompleted && (
           <button
             className="w-full my-6 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors text-lg font-semibold "
