@@ -192,4 +192,133 @@ export const questionsByWeek: { [week: string]: Question[] } = {
       answer: "chemical weathering",
     },
   ],
+  week4: [
+    {
+      question: "For absolute form factor, the reference for the base of the cylinder is",
+      options: [
+        "base of the tree",
+        "breast height",
+        "10% of tree height",
+        "20% of tree height"
+      ],
+      answer: "base of the tree"
+    },
+    {
+      question: "For normal form factor, the reference for the base of the cylinder is",
+      options: [
+        "base of the tree",
+        "breast height",
+        "10% of tree height",
+        "20% of tree height"
+      ],
+      answer: "10% of tree height"
+    },
+    {
+      question: "In India, the breast height is considered to be",
+      options: ["1.37 m", "1.47 m", "1.57 m", "2.47 m"],
+      answer: "1.37 m"
+    },
+    {
+      question: "Measurement of height based on similar triangles comes under:",
+      options: ["similar measurement", "dissimilar measurement", "direct measurement", "indirect measurement"],
+      answer: "indirect measurement"
+    },
+    {
+      question: "For a tree with dbh = 45.6 cm, height = 27 m and total stem volume of 1.78 cum, the artificial form factor for the tree is:",
+      options: ["0.1", "0.2", "0.3", "0.4"],
+      answer: "0.4"
+    },
+    {
+      question: "Consider a stand of eucalyptus trees that are on average 30 cm in diameter and spaced on a regular 3 m grid. Find the spacing factor.",
+      options: ["5", "10", "15", "data insufficient"],
+      answer: "10"
+    },
+    {
+      question: "Diameter over bark (dob), diameter under bark (dub) and bark thickness (tb) are related as:",
+      options: [
+        "dob = dub + tb",
+        "dob = dub - tb",
+        "dob = dub + 2 × tb",
+        "dob = dub - 2 × tb"
+      ],
+      answer: "dob = dub + 2 × tb"
+    },
+    {
+      question: "For false form factor, the reference for the base of the cylinder is",
+      options: ["base of the tree", "breast height", "10% of tree height", "20% of tree height"],
+      answer: "breast height"
+    },
+    {
+      question: "Choose the correct statement:",
+      options: [
+        "For a non-circular cross-section, girth tape over-estimates the sectional area.",
+        "For a non-circular cross-section, girth tape under-estimates the sectional area.",
+        "For a non-circular cross-section, girth tape correctly estimates the sectional area.",
+        "None of these is a correct statement."
+      ],
+      answer: "For a non-circular cross-section, girth tape over-estimates the sectional area."
+    },
+    {
+      question: "A tree has dbh of 25 cm. Find its basal area in sq m.",
+      options: [".049", ".096", ".149", ".195"],
+      answer: ".049"
+    }
+  ],
+  week5: [
+    {
+      question: "“This sampling employs a simple rule of selecting every kth unit starting with a number chosen at random from 1 to k as the random start.” We're talking about",
+      options: ["Simple random sampling", "Systematic sampling", "Stratified sampling", "Multistage sampling"],
+      answer: "Systematic sampling"
+    },
+    {
+      question: "IMU stands for",
+      options: ["Imperial metering unit", "Inertial metering unit", "Imperial measurement unit", "Inertial measurement unit"],
+      answer: "Inertial measurement unit"
+    },
+    {
+      question: "___ is how close the measured values are to the correct value.",
+      options: ["Accuracy", "Precision", "Bias", "Variance"],
+      answer: "Accuracy"
+    },
+    {
+      question: "A list of sampling units is called a",
+      options: ["frame", "window", "sample", "population"],
+      answer: "frame"
+    },
+    {
+      question: "The time of flight for LiDAR is 0.00001 sec. Find the distance of the object from the instrument.",
+      options: ["500 m", "1000 m", "1500 m", "2000 m"],
+      answer: "1500 m"
+    },
+    {
+      question: "Which of these is correct?",
+      options: [
+        "Plane surveying takes into account the true shape of the Earth and is used for smaller areas (< 250 sq km)",
+        "Plane surveying takes into account the true shape of the Earth and is used for larger areas (> 250 sq km)",
+        "Geodetic surveying takes into account the true shape of the Earth and is used for smaller areas (< 250 sq km)",
+        "Geodetic surveying takes into account the true shape of the Earth and is used for larger areas (> 250 sq km)"
+      ],
+      answer: "Geodetic surveying takes into account the true shape of the Earth and is used for larger areas (> 250 sq km)"
+    },
+    {
+      question: "A sampling procedure such that each possible combination of sampling units out of the population has the same chance of being selected is referred to as",
+      options: ["Simple random sampling", "Systematic sampling", "Stratified sampling", "Multistage sampling"],
+      answer: "Simple random sampling"
+    },
+    {
+      question: "The frequency of flyovers is an indicator of",
+      options: ["spatial resolution", "temporal resolution", "spectral resolution", "radiometric resolution"],
+      answer: "temporal resolution"
+    },
+    {
+      question: "___ is how close the measured values are to each other.",
+      options: ["Accuracy", "Precision", "Bias", "Variance"],
+      answer: "Precision"
+    },
+    {
+      question: "Bathymetric LiDAR uses",
+      options: ["far infrared light", "near infrared light", "orange light", "green light"],
+      answer: "green light"
+    }
+  ],
 };
