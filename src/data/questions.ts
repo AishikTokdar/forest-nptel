@@ -321,4 +321,158 @@ export const questionsByWeek: { [week: string]: Question[] } = {
       answer: "green light"
     }
   ],
+  week6: [
+    {
+      question: "Invasive climbers increase the probability of which of these fire types?",
+      options: ["ground fire", "surface fire", "ladder fire", "firestorm"],
+      answer: "ladder fire"
+    },
+    {
+      question: "Which of these forms the fire triangle?",
+      options: ["fire, air, heat", "fire, oxygen, wood", "fuel, air, wood", "fuel, oxygen, heat"],
+      answer: "fuel, oxygen, heat"
+    },
+    {
+      question: "A scientist uses a trap to capture a monkey. In the context of Wildlife Protection Act 1972,",
+      options: [
+        "the trap is a weapon and capturing is hunting.",
+        "the trap is not a weapon and capturing is hunting.",
+        "the trap is a weapon and capturing is not hunting.",
+        "the trap is not a weapon and capturing is not hunting."
+      ],
+      answer: "the trap is a weapon and capturing is not hunting."
+    },
+    {
+      question: "In the formula I = P × A × T, P refers to",
+      options: ["professional pressure", "pollution pressure", "population pressure", "none of the above"],
+      answer: "population pressure"
+    },
+    {
+      question: "In the formula I = P × A × T, T refers to",
+      options: ["transference", "time", "technology", "none of the above"],
+      answer: "technology"
+    },
+    {
+      question: "Which of these is a stochastic factor?",
+      options: ["birth rate", "death rate", "population structure", "forest fire"],
+      answer: "forest fire"
+    },
+    {
+      question: "The acronym HIPPO does not include",
+      options: ["habitat loss", "habitat enhancement", "over-harvesting", "human over-population"],
+      answer: "habitat enhancement"
+    },
+    {
+      question: "A veterinarian uses an immobilising gun to capture a deer. In the context of Wildlife Protection Act 1972,",
+      options: [
+        "the immobilising gun is a weapon and capturing is hunting.",
+        "the immobilising gun is not a weapon and capturing is hunting.",
+        "the immobilising gun is a weapon and capturing is not hunting.",
+        "the immobilising gun is not a weapon and capturing is not hunting."
+      ],
+      answer: "the immobilising gun is a weapon and capturing is hunting."
+    },
+    {
+      question: "Which of these is a deterministic factor?",
+      options: ["environmental variation", "forest fire", "death rate", "diseases"],
+      answer: "death rate"
+    },
+    {
+      question: "The acronym HIPPO does not include",
+      options: ["habitat loss", "invasive species", "pollination", "pollution"],
+      answer: "pollination"
+    }
+  ],
+  week7: [
+    {
+      question: "Taungya regeneration is",
+      options: [
+        "natural regeneration",
+        "artificial regeneration with villagers",
+        "artificial regeneration with nomadic tribes",
+        "artificial regeneration with hunters and gatherers"
+      ],
+      answer: "artificial regeneration with villagers"
+    },
+    {
+      question: "Which of these is not an advantage of the clear felling system?",
+      options: [
+        "Simple system, easy and efficient operations",
+        "Allows for establishment of a more uniform crop",
+        "Increases soil erosion and landslides in hilly areas",
+        "Mimics natural processes of fire and large-scale insect attacks"
+      ],
+      answer: "Increases soil erosion and landslides in hilly areas"
+    },
+    {
+      question: "Which of these is the correct sequence of a silvicultural system?",
+      options: [
+        "Stand tending -> Regeneration -> Harvesting",
+        "Harvesting -> Stand tending -> Regeneration",
+        "Harvesting -> Regeneration -> Stand tending",
+        "Regeneration -> Harvesting -> Stand tending"
+      ],
+      answer: "Harvesting -> Regeneration -> Stand tending"
+    },
+    {
+      question: "Ring weeding is primarily a feature of",
+      options: [
+        "natural regeneration",
+        "assisted natural regeneration",
+        "artificial regeneration by direct sowing",
+        "artificial regeneration by planting seedlings"
+      ],
+      answer: "assisted natural regeneration"
+    },
+    {
+      question: "Tending is done during",
+      options: [
+        "early stage of life",
+        "middle stage of life",
+        "late stage of life",
+        "any stage of life"
+      ],
+      answer: "any stage of life"
+    },
+    {
+      question: "The movement of seeds away from their place of seed production into a new area is called",
+      options: ["translocation", "migration", "dispersal", "drifting"],
+      answer: "dispersal"
+    },
+    {
+      question: "Average age at which a tree is considered mature for felling is called",
+      options: ["crop age", "felling age", "rotation age", "maturity age"],
+      answer: "rotation age"
+    },
+    {
+      question: "A site was clear-cut. Which of these methods of regeneration cannot be used in a short time-frame?",
+      options: [
+        "natural regeneration",
+        "artificial regeneration by direct sowing",
+        "artificial regeneration by planting seedlings",
+        "artificial regeneration by transplanting trees"
+      ],
+      answer: "natural regeneration"
+    },
+    {
+      question: "Which of these is not a feature of natural regeneration?",
+      options: [
+        "low cost",
+        "less requirement of heavy machinery and labour",
+        "preservation of genetic variability",
+        "good control over genetic improvement"
+      ],
+      answer: "good control over genetic improvement"
+    },
+    {
+      question: "Which of these is not a feature of natural regeneration?",
+      options: [
+        "seed consumption by insects and seed feeders",
+        "little control over spacing and stand density",
+        "long time needed to regenerate forest",
+        "high requirement of heavy machinery and labour"
+      ],
+      answer: "high requirement of heavy machinery and labour"
+    }
+  ],
 };
