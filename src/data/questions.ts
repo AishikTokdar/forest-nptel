@@ -340,7 +340,7 @@ export const questionsByWeek: { [week: string]: Question[] } = {
         "the trap is a weapon and capturing is not hunting.",
         "the trap is not a weapon and capturing is not hunting."
       ],
-      answer: "the trap is a weapon and capturing is not hunting."
+      answer: "the trap is a weapon and capturing is hunting."
     },
     {
       question: "In the formula I = P × A × T, P refers to",
@@ -473,6 +473,212 @@ export const questionsByWeek: { [week: string]: Question[] } = {
         "high requirement of heavy machinery and labour"
       ],
       answer: "high requirement of heavy machinery and labour"
+    }
+  ],
+  week8: [
+    {
+      question: "Shelterwood system results in",
+      options: [
+        "even aged stand with natural aesthetics",
+        "even aged stand with artificial aesthetics",
+        "uneven aged stand with natural aesthetics",
+        "uneven aged stand with artificial aesthetics"
+      ],
+      answer: "even aged stand with natural aesthetics"
+    },
+    {
+      question: "In group shelterwood system, the regeneration area is increased",
+      options: [
+        "centrifugally around gaps",
+        "centripetally around gaps",
+        "parallel to gaps",
+        "perpendicular to gaps"
+      ],
+      answer: "centrifugally around gaps"
+    },
+    {
+      question: "Trees not putting increment are removed during",
+      options: [
+        "preparatory felling",
+        "seeding felling",
+        "secondary felling",
+        "final felling"
+      ],
+      answer: "preparatory felling"
+    },
+    {
+      question: "Clear felling system is not used for",
+      options: [
+        "light demanding species",
+        "shade bearer species",
+        "plain areas",
+        "plateau areas"
+      ],
+      answer: "shade bearer species"
+    },
+    {
+      question: "For a crop with rotation age of 120 years, PB-III would have crop age",
+      options: [
+        "0-30 years",
+        "30-60 years",
+        "60-90 years",
+        "90-120 years"
+      ],
+      answer: "30-60 years"
+    },
+    {
+      question: "Felling made with the object of opening the canopy to remove shelter and allow more light for the regenerated crop is",
+      options: [
+        "preparatory felling",
+        "seeding felling",
+        "secondary felling",
+        "final felling"
+      ],
+      answer: "secondary felling"
+    },
+    {
+      question: "Close to nature forestry is a feature of",
+      options: [
+        "clear felling system",
+        "selection system",
+        "uniform shelterwood system",
+        "group shelterwood system"
+      ],
+      answer: "selection system"
+    },
+    {
+      question: "Inverse-J shaped number-diameter curves are seen in",
+      options: [
+        "clear felling system",
+        "selection system",
+        "uniform shelterwood system",
+        "group shelterwood system"
+      ],
+      answer: "selection system"
+    },
+    {
+      question: "Which of these is the correct sequence for shelterwood system?",
+      options: [
+        "Preparatory felling -> Secondary felling -> Seedling felling -> Final felling",
+        "Preparatory felling -> Seedling felling -> Secondary felling -> Final felling",
+        "Preparatory felling -> Secondary felling -> Seeding felling -> Final felling",
+        "Preparatory felling -> Seeding felling -> Secondary felling -> Final felling"
+      ],
+      answer: "Preparatory felling -> Seeding felling -> Secondary felling -> Final felling"
+    },
+    {
+      question: "Catchment areas are best suited for",
+      options: [
+        "clear felling system",
+        "selection system",
+        "uniform shelterwood system",
+        "group shelterwood system"
+      ],
+      answer: "selection system"
+    }
+  ],
+  week9: [
+    {
+      question: "Trees to be retained are shown in ___ marking colour",
+      options: ["yellow", "blue", "red", "white"],
+      answer: "blue"
+    },
+    {
+      question: "Trees on boundary are shown in ___ marking colour",
+      options: ["yellow", "blue", "red", "white"],
+      answer: "red"
+    },
+    {
+      question: "Cutting of timber into logs is known as",
+      options: ["marking", "bucking", "skidding", "delimbing"],
+      answer: "bucking"
+    },
+    {
+      question: "Careful selection of trees for harvesting based on a forest management prescription is known as",
+      options: ["surveying", "cruising", "marking", "logging"],
+      answer: "marking"
+    },
+    {
+      question: "Net growth in initial volume is given by",
+      options: ["V2-V1", "V2-V1+H-I", "V2-V1+H-I+M", "V2-V1+H-I-M"],
+      answer: "V2-V1+H-I"
+    },
+    {
+      question: "Research plots are shown in ___ marking colour",
+      options: ["yellow", "blue", "red", "white"],
+      answer: "white"
+    },
+    {
+      question: "Which of these gives the greatest accuracy in constructing face cuts",
+      options: ["conventional face", "humboldt face", "open face", "all of these"],
+      answer: "conventional face"
+    },
+    {
+      question: "Which of these gives the greatest saving of lumber",
+      options: ["conventional face", "humboldt face", "open face", "all of these"],
+      answer: "humboldt face"
+    },
+    {
+      question: "Moving of logs from forest to landing area is known as",
+      options: ["marking", "bucking", "skidding", "delimbing"],
+      answer: "skidding"
+    },
+    {
+      question: "Surveying timberlands to locate and estimate the volumes and grades of standing timber meeting requirements is known as",
+      options: ["surveying", "cruising", "marking", "logging"],
+      answer: "cruising"
+    }
+  ],
+  week10: [
+    {
+      question: "Wet and dry treatment of seeds is used for which species",
+      options: ["amla", "mango", "ber", "teak"],
+      answer: "teak"
+    },
+    {
+      question: "Which of these is not a laboratory method to determine best days for seed collection?",
+      options: ["maximum dry weight", "colour of fruits", "moisture content of fruits", "chemical analysis of fat and nitrogen content"],
+      answer: "colour of fruits"
+    },
+    {
+      question: "Which of these characterises a refractory site",
+      options: ["soil depth < 10 cm", "soil depth 10-30 cm", "soil depth > 30 cm", "none of these"],
+      answer: "soil depth < 10 cm"
+    },
+    {
+      question: "Which of these prevents water logging",
+      options: ["sunken bed", "raised bed", "flat bed", "all of these"],
+      answer: "raised bed"
+    },
+    {
+      question: "Number of seeds in sample that germinate up to the peak germination period expressed as % is a definition of",
+      options: ["germination number", "germination percentage", "germination energy", "germination power"],
+      answer: "germination energy"
+    },
+    {
+      question: "Which of these conserves moisture",
+      options: ["sunken bed", "raised bed", "flat bed", "all of these"],
+      answer: "sunken bed"
+    },
+    {
+      question: "Agave is used for",
+      options: ["barbed wire fencing", "live fencing", "chain link fencing", "stone wall fencing"],
+      answer: "live fencing"
+    },
+    {
+      question: "Shell cracking of seeds is used for which species",
+      options: ["amla", "mango", "ber", "teak"],
+      answer: "ber"
+    },
+    {
+      question: "Choice of spacing is dependent upon",
+      options: ["objective of plantation", "site-species matching", "growth rate", "all of these"],
+      answer: "all of these"
+    },
+    {
+      question: "Which of these is a good storage condition",
+      options: ["high moisture, high temperature", "high moisture, low temperature", "low moisture, high temperature", "low moisture, low temperature"],
+      answer: "low moisture, low temperature"
     }
   ],
 };
