@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from 'next/dynamic';
 import { ThemeProvider } from "@/context/ThemeContext";
+import ThemeToggleWrapper from "@/components/ThemeToggleWrapper";
 
 // Dynamically import components that are not needed for initial render
 const Navbar = dynamic(() => import('@/components/Navbar'), {
@@ -13,11 +14,6 @@ const Navbar = dynamic(() => import('@/components/Navbar'), {
 const Footer = dynamic(() => import('@/components/Footer'), {
   ssr: true,
   loading: () => <div className="h-32 bg-white dark:bg-gray-900" />
-});
-
-const ThemeToggle = dynamic(() => import('@/components/ThemeToggle'), {
-  ssr: false,
-  loading: () => null
 });
 
 // Configure Inter font with fallback options
@@ -75,7 +71,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
-            <ThemeToggle />
+            <ThemeToggleWrapper />
           </div>
         </ThemeProvider>
       </body>
