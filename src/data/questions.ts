@@ -1,6 +1,62 @@
 import { Question } from "@/types/Question";
 
-export const questionsByWeek: { [week: string]: Question[] } = {
+// Cache for loaded questions with LRU-like behavior
+const MAX_CACHE_SIZE = 5;
+const questionCache: Map<string, Question[]> = new Map();
+
+// Function to load questions for a specific week
+export const loadQuestionsForWeek = async (week: string): Promise<Question[]> => {
+  // Check cache first
+  if (questionCache.has(week)) {
+    // Move to end of cache (most recently used)
+    const questions = questionCache.get(week)!;
+    questionCache.delete(week);
+    questionCache.set(week, questions);
+    return questions;
+  }
+
+  // Load questions from the static data
+  const questions = questionsByWeek[week] || [];
+  
+  // Add to cache with LRU behavior
+  if (questionCache.size >= MAX_CACHE_SIZE) {
+    // Remove least recently used item
+    const firstKey = Array.from(questionCache.keys())[0];
+    if (firstKey) {
+      questionCache.delete(firstKey);
+    }
+  }
+  questionCache.set(week, questions);
+  
+  return questions;
+};
+
+// Function to get all available weeks
+export const getAvailableWeeks = (): string[] => {
+  return Object.keys(questionsByWeek);
+};
+
+// Function to get total questions count for a week
+export const getQuestionsCountForWeek = (week: string): number => {
+  return questionsByWeek[week]?.length || 0;
+};
+
+// Function to get questions for multiple weeks
+export const loadQuestionsForWeeks = async (weeks: string[]): Promise<Question[]> => {
+  const questions: Question[] = [];
+  for (const week of weeks) {
+    const weekQuestions = await loadQuestionsForWeek(week);
+    questions.push(...weekQuestions);
+  }
+  return questions;
+};
+
+// Function to clear the cache
+export const clearQuestionCache = () => {
+  questionCache.clear();
+};
+
+export const questionsByWeek: { [key: string]: Question[] } = {
   week1: [
     {
       question: "Which of these is not a consumptive value?",
@@ -51,7 +107,7 @@ export const questionsByWeek: { [week: string]: Question[] } = {
       answer: "broadleaved forests",
     },
     {
-      question: "The value of leaving use and non-use values for offspring’s or future generations is called",
+      question: "The value of leaving use and non-use values for offspring's or future generations is called",
       options: ["altruistic value", "bequest value", "existence value", "option value"],
       answer: "bequest value",
     },

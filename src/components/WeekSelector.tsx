@@ -1,6 +1,5 @@
 import React from "react";
 import { Calendar, ArrowRight, Home } from "lucide-react";
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import Link from "next/link";
 
 interface WeekSelectorProps {
@@ -10,7 +9,6 @@ interface WeekSelectorProps {
 const WeekSelector: React.FC<WeekSelectorProps> = ({ weeks }) => {
   return (
     <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-700 min-h-screen h-full text-gray-300 py-16 px-8 sm:px-12 lg:px-16 font-sans flex flex-col items-center">
-      {/* Hero Section */}
       <div className="max-w-5xl w-full text-center mb-16">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4 tracking-tight">
           Select a Week to Practice
@@ -23,8 +21,6 @@ const WeekSelector: React.FC<WeekSelectorProps> = ({ weeks }) => {
           <span className="ml-2">Home</span>
         </Link>
       </div>
-      <SpeedInsights />
-      {/* Weeks Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-16 w-full max-w-5xl">
         {weeks.map((week) => (
           <Link
@@ -50,8 +46,6 @@ const WeekSelector: React.FC<WeekSelectorProps> = ({ weeks }) => {
           <ArrowRight size={24} />
         </Link>
       </div>
-      <SpeedInsights />
-      {/* Footer Section */}
       <div className="text-center mt-16">
         <p className="text-gray-400 text-sm">
           © 2025 Forests & Management. All rights reserved.

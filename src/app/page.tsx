@@ -1,102 +1,133 @@
 import React from "react";
-import { ArrowRight, TreePine, Leaf, Trees, Sprout, LeafyGreen, Mountain, Github } from "lucide-react";
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import dynamic from "next/dynamic";
+import { ArrowRight, TreePine, Leaf, Trees, Sprout, LeafyGreen, Mountain, BookOpen, Brain, Award, GraduationCap, Target, Users } from "lucide-react";
 import Link from "next/link";
 
-const FeatureCard = ({
-  icon: Icon,
-  title,
-  description,
-}: {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-}) => (
-  <div className="bg-gray-900/50 p-6 border border-gray-700 transition-all duration-300 hover:bg-gray-800 hover:shadow-lg hover:shadow-gray-700/50 rounded-lg">
-    <Icon size={36} className="text-white mb-4" />
-    <h2 className="text-xl font-bold mb-2">{title}</h2>
-    <p className="text-gray-400 text-sm">{description}</p>
+// Dynamically import heavy components
+const FeatureCard = dynamic(() => import('@/components/FeatureCard'), {
+  loading: () => <div className="animate-pulse bg-gray-800/50 rounded-lg h-48" />
+});
+
+const StatCard = dynamic(() => import('@/components/StatCard'), {
+  loading: () => <div className="animate-pulse bg-gray-800/50 rounded-lg h-32" />
+});
+
+// Memoized icon components
+const Icons = React.memo(() => (
+  <div className="mt-16 flex justify-center space-x-8">
+    {[TreePine, Leaf, Trees, Sprout, LeafyGreen, Mountain].map((Icon, index) => (
+      <div
+        key={index}
+        className="relative group"
+      >
+        <div className={`absolute inset-0 bg-green-${400 + (index * 100)} rounded-full blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-300`} />
+        <Icon
+          className={`text-green-${400 + (index * 100)} w-12 h-12 transform hover:scale-110 transition-transform duration-300 cursor-pointer`}
+        />
+      </div>
+    ))}
   </div>
-);
+));
+
+Icons.displayName = 'Icons';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center p-8 font-mono relative overflow-hidden">
-      <div className="max-w-5xl w-full relative z-10">
-        <div className="mb-16 flex flex-col md:flex-row items-center justify-between">
-          <div className="text-left mb-8 md:mb-0">
-            <h1 className="text-6xl font-bold mb-2 tracking-tighter font-sans text-green-400">
-              Forests & Management
+    <div className="min-h-screen bg-black text-white">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl xl:text-7xl mb-6">
+              <span className="block text-white">Master Forest Management</span>
+              <span className="block mt-3 text-green-400">with NPTEL</span>
             </h1>
-            <h2 className="text-2xl font-light text-gray-300">
-              NPTEL Quiz & Learning Hub
-            </h2>
+            <p className="mt-6 text-lg text-gray-300 max-w-3xl mx-auto">
+              Your comprehensive learning platform for the NPTEL Forest Management course. 
+              Practice with our specialized quizzes, access study materials, and ace your FAT exam.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Link
+                href="/quiz"
+                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 transition-colors duration-200"
+              >
+                Start Learning
+                <ArrowRight className="ml-2 -mr-1 h-5 w-5" />
+              </Link>
+              <Link
+                href="/study"
+                className="inline-flex items-center px-6 py-3 border border-gray-700 text-base font-medium rounded-lg text-gray-300 hover:text-white hover:border-gray-600 transition-colors duration-200"
+              >
+                Browse Study Material
+              </Link>
+            </div>
           </div>
-          <div className="hidden md:flex space-x-4">
-            <Leaf className="text-green-400 transition-colors duration-300" size={48} />
-            <TreePine className="text-green-700 transition-colors duration-300" size={48} />
-            <Trees className="text-green-600 transition-colors duration-300" size={48} />
-            <Sprout className="text-teal-400 transition-colors duration-300" size={48} />
-            <LeafyGreen className="text-green-500 transition-colors duration-300" size={48} />
-            <Mountain className="text-blue-400 transition-colors duration-300" size={48} />
+
+          <Icons />
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 bg-gray-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white sm:text-4xl">Why Choose Our Platform?</h2>
+            <p className="mt-4 text-lg text-gray-400">Everything you need to excel in your Forest Management course</p>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <FeatureCard
-            icon={TreePine}
-            title="Sustainable Forestry"
-            description="Learn about forest conservation, afforestation, and sustainable practices."
-          />
-          <FeatureCard
-            icon={Leaf}
-            title="Biodiversity & Ecology"
-            description="Understand the role of forests in maintaining biodiversity and ecosystems."
-          />
-          <FeatureCard
-            icon={Sprout}
-            title="Adaptive Learning"
-            description="Tailored quizzes to strengthen your knowledge in forest management."
-          />
-        </div>
-
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 mb-12">
-          <Link
-            href="/quiz"
-            className="inline-flex items-center bg-green-600 text-white font-bold py-3 px-8 text-lg transition-all duration-300 hover:bg-green-700 group rounded-lg"
-          >
-            Start Learning
-            <ArrowRight
-              className="ml-2 transform group-hover:translate-x-1 transition-transform"
-              size={20}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <FeatureCard
+              icon="BookOpen"
+              title="Comprehensive Content"
+              description="Access detailed study materials covering all aspects of forest management and conservation."
+              color="bg-blue-500"
             />
-          </Link>
-          <a
-            href="https://github.com/AishikTokdar/forest-nptel"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center text-gray-300 hover:text-gray-400 transition-colors duration-300"
-          >
-            <Github className="mr-2" size={24} />
-            View on GitHub
-          </a>
+            <FeatureCard
+              icon="Brain"
+              title="Interactive Learning"
+              description="Practice with our specialized quizzes designed to test and reinforce your knowledge."
+              color="bg-purple-500"
+            />
+            <FeatureCard
+              icon="Award"
+              title="Exam Preparation"
+              description="Prepare effectively for your FAT exam with our targeted study resources and practice tests."
+              color="bg-yellow-500"
+            />
+          </div>
         </div>
+      </section>
 
-        <div className="text-left">
-          <p className="text-gray-500 text-sm">
-            Master the NPTEL Forests and Management course material and ace your FAT exam with the
-            specialized quiz app.
-          </p>
+      {/* Stats Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <StatCard
+              number="100+"
+              label="Practice Questions"
+              icon="GraduationCap"
+              color="bg-green-500"
+            />
+            <StatCard
+              number="12"
+              label="Course Weeks"
+              icon="Target"
+              color="bg-blue-500"
+            />
+            <StatCard
+              number="24/7"
+              label="Access"
+              icon="Leaf"
+              color="bg-purple-500"
+            />
+            <StatCard
+              number="1000+"
+              label="Active Students"
+              icon="Users"
+              color="bg-yellow-500"
+            />
+          </div>
         </div>
-      </div>
-
-      <SpeedInsights />
-
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-black"></div>
-        <div className="absolute -left-64 -top-64 w-128 h-128 bg-green-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute -right-64 -bottom-64 w-128 h-128 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-      </div>
+      </section>
     </div>
   );
 }
