@@ -1,166 +1,4 @@
-// // import React, { useState, useEffect } from "react";
-// // import { Question } from "@/types/Question";
-// // import { LucideIcon, Check, X } from "lucide-react";
-
-// // interface QuizProps {
-// //   questions: Question[];
-// //   onComplete: (score: number) => void;
-// // }
-
-// // const Quiz: React.FC<QuizProps> = ({ questions, onComplete }) => {
-// //   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-// //   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-// //   const [score, setScore] = useState(0);
-// //   const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
-
-// //   useEffect(() => {
-// //     setShuffledQuestions(shuffleArray(questions));
-// //   }, [questions]);
-
-// //   const currentQuestion = shuffledQuestions[currentQuestionIndex];
-
-// //   const handleAnswerSelect = (answer: string) => {
-// //     setSelectedAnswer(answer);
-// //   };
-
-// //   const handleNextQuestion = () => {
-// //     if (selectedAnswer === currentQuestion.answer) {
-// //       setScore(score + 1);
-// //     }
-
-// //     if (currentQuestionIndex < shuffledQuestions.length - 1) {
-// //       setCurrentQuestionIndex(currentQuestionIndex + 1);
-// //       setSelectedAnswer(null);
-// //     } else {
-// //       onComplete(score);
-// //     }
-// //   };
-
-// //   const shuffleArray = (array: any[]) => {
-// //     const shuffled = [...array];
-// //     for (let i = shuffled.length - 1; i > 0; i--) {
-// //       const j = Math.floor(Math.random() * (i + 1));
-// //       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-// //     }
-// //     return shuffled;
-// //   };
-
-// //   if (!currentQuestion) return null;
-
-// //   return (
-// //     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-// //       <h2 className="text-2xl font-bold mb-4">{currentQuestion.question}</h2>
-// //       <div className="space-y-2">
-// //         {currentQuestion.options.map((option, index) => (
-// //           <button
-// //             key={index}
-// //             className={`w-full p-3 text-left rounded-md transition-colors ${
-// //               selectedAnswer === option ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"
-// //             }`}
-// //             onClick={() => handleAnswerSelect(option)}
-// //           >
-// //             {option}
-// //           </button>
-// //         ))}
-// //       </div>
-// //       <button
-// //         className="mt-6 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
-// //         onClick={handleNextQuestion}
-// //         disabled={!selectedAnswer}
-// //       >
-// //         {currentQuestionIndex === shuffledQuestions.length - 1 ? "Finish" : "Next"}
-// //       </button>
-// //       <div className="mt-4 text-sm text-gray-600">
-// //         Question {currentQuestionIndex + 1} of {shuffledQuestions.length}
-// //       </div>
-// //     </div>
-// //   );
-// // };
-
-// // export default Quiz;
-
-// import React, { useState, useEffect } from "react";
-// import { Question } from "@/types/Question";
-// import { LucideIcon, Check, X } from "lucide-react";
-
-// interface QuizProps {
-//   questions: Question[];
-//   onComplete: (score: number) => void;
-// }
-
-// const Quiz: React.FC<QuizProps> = ({ questions, onComplete }) => {
-//   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-//   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-//   const [score, setScore] = useState(0);
-//   const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
-
-//   useEffect(() => {
-//     setShuffledQuestions(shuffleArray(questions));
-//   }, [questions]);
-
-//   const currentQuestion = shuffledQuestions[currentQuestionIndex];
-
-//   const handleAnswerSelect = (answer: string) => {
-//     setSelectedAnswer(answer);
-//   };
-
-//   const handleNextQuestion = () => {
-//     if (selectedAnswer === currentQuestion.answer) {
-//       setScore(score + 1);
-//     }
-
-//     if (currentQuestionIndex < shuffledQuestions.length - 1) {
-//       setCurrentQuestionIndex(currentQuestionIndex + 1);
-//       setSelectedAnswer(null);
-//     } else {
-//       onComplete(score);
-//     }
-//   };
-
-//   const shuffleArray = (array: any[]) => {
-//     const shuffled = [...array];
-//     for (let i = shuffled.length - 1; i > 0; i--) {
-//       const j = Math.floor(Math.random() * (i + 1));
-//       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-//     }
-//     return shuffled;
-//   };
-
-//   if (!currentQuestion) return null;
-
-//   return (
-//     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-//       <h2 className="text-2xl font-bold mb-4">{currentQuestion.question}</h2>
-//       <div className="space-y-2">
-//         {currentQuestion.options.map((option, index) => (
-//           <button
-//             key={index}
-//             className={`w-full p-3 text-left rounded-md transition-colors ${
-//               selectedAnswer === option ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"
-//             }`}
-//             onClick={() => handleAnswerSelect(option)}
-//           >
-//             {option}
-//           </button>
-//         ))}
-//       </div>
-//       <button
-//         className="mt-6 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
-//         onClick={handleNextQuestion}
-//         disabled={!selectedAnswer}
-//       >
-//         {currentQuestionIndex === shuffledQuestions.length - 1 ? "Finish" : "Next"}
-//       </button>
-//       <div className="mt-4 text-sm text-gray-600">
-//         Question {currentQuestionIndex + 1} of {shuffledQuestions.length}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Quiz;
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Question } from "@/types/Question";
 import { Check, X, RefreshCcw } from "lucide-react";
 
@@ -175,11 +13,7 @@ const Quiz: React.FC<QuizProps> = ({ questions, onComplete }) => {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [score, setScore] = useState(0);
 
-  useEffect(() => {
-    shuffleQuestions();
-  }, [questions]);
-
-  const shuffleQuestions = () => {
+  const shuffleQuestions = useCallback(() => {
     const shuffled = [...questions].sort(() => Math.random() - 0.5);
     setShuffledQuestions(
       shuffled.map((q) => ({
@@ -190,7 +24,11 @@ const Quiz: React.FC<QuizProps> = ({ questions, onComplete }) => {
     setUserAnswers({});
     setQuizCompleted(false);
     setScore(0);
-  };
+  }, [questions]);
+
+  useEffect(() => {
+    shuffleQuestions();
+  }, [shuffleQuestions]);
 
   const handleAnswerSelect = (questionIndex: number, answer: string) => {
     setUserAnswers((prev) => ({ ...prev, [questionIndex]: answer }));

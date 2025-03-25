@@ -87,10 +87,15 @@ MixedQuizCard.displayName = 'MixedQuizCard';
 // Memoized search input component
 const SearchInput = React.memo(({ onSearch }: { onSearch: (value: string) => void }) => {
   const debouncedSearch = useCallback(
-    debounce((value: string) => {
+    (value: string) => {
       onSearch(value);
-    }, 300),
+    },
     [onSearch]
+  );
+
+  const debouncedSearchWithDelay = useMemo(
+    () => debounce(debouncedSearch, 300),
+    [debouncedSearch]
   );
 
   return (
@@ -100,7 +105,7 @@ const SearchInput = React.memo(({ onSearch }: { onSearch: (value: string) => voi
         placeholder="Search weeks..."
         className="bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2 pl-10 text-white w-64
           focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-        onChange={(e) => debouncedSearch(e.target.value)}
+        onChange={(e) => debouncedSearchWithDelay(e.target.value)}
       />
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
     </div>
@@ -152,13 +157,6 @@ export default function QuizWeekSelector() {
     estimateSize: () => 100,
     overscan: 5,
   });
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      rowVirtualizer.cleanup();
-    };
-  }, [rowVirtualizer]);
 
   return (
     <div className="min-h-screen bg-black relative">

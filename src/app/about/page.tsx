@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { Users, Target, Heart, Github } from 'lucide-react';
 
@@ -27,7 +28,7 @@ export default function About() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-white mb-4">About Forest NPTEL</h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            We're dedicated to making forest management education accessible and engaging
+            We&apos;re dedicated to making forest management education accessible and engaging
             for students across India through the NPTEL platform.
           </p>
         </div>
@@ -98,7 +99,7 @@ export default function About() {
         <div className="bg-gradient-to-r from-green-500/10 via-green-600/10 to-green-700/10 rounded-xl p-8 text-center">
           <h2 className="text-2xl font-bold text-white mb-4">Get in Touch</h2>
           <p className="text-gray-400 mb-6">
-            Have questions or suggestions? We'd love to hear from you!
+            Have questions or suggestions? We&apos;d love to hear from you!
           </p>
           <a
             href="mailto:aishiktokdar@gmail.com"

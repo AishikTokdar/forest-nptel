@@ -2,7 +2,7 @@
 
 import { questionsByWeek } from "@/data/questions";
 import { ArrowLeft, Check, X, RefreshCw, Timer, Award, Brain } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Question } from "@/types/Question";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,6 +18,18 @@ export default function QuizPage({ params }: { params: { week: string } }) {
   const [isTabActive, setIsTabActive] = useState(true);
   const timerRef = useRef<NodeJS.Timeout>();
   const lastActiveTimeRef = useRef<Date | null>(null);
+
+  const shuffleQuestions = useCallback(() => {
+    const allQuestions =
+      week === "all" ? Object.values(questionsByWeek).flat() : questionsByWeek[week] || [];
+    const shuffled = allQuestions
+      .sort(() => Math.random() - 0.5)
+      .map((q) => ({
+        ...q,
+        options: [...q.options].sort(() => Math.random() - 0.5),
+      }));
+    setQuestions(shuffled);
+  }, [week]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -77,19 +89,7 @@ export default function QuizPage({ params }: { params: { week: string } }) {
         timerRef.current = undefined;
       }
     };
-  }, [week]);
-
-  const shuffleQuestions = () => {
-    const allQuestions =
-      week === "all" ? Object.values(questionsByWeek).flat() : questionsByWeek[week] || [];
-    const shuffled = allQuestions
-      .sort(() => Math.random() - 0.5)
-      .map((q) => ({
-        ...q,
-        options: [...q.options].sort(() => Math.random() - 0.5),
-      }));
-    setQuestions(shuffled);
-  };
+  }, [week, shuffleQuestions]);
 
   const handleAnswerSelect = (questionIndex: number, answer: string) => {
     if (!quizCompleted) {

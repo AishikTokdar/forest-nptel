@@ -28,7 +28,7 @@ export default function MixedQuiz() {
   // Shuffle questions on component mount
   useEffect(() => {
     setShuffledQuestions(shuffleArray(allQuestions));
-  }, []);
+  }, [allQuestions]);
 
   const currentQuestion = shuffledQuestions[currentQuestionIndex];
 

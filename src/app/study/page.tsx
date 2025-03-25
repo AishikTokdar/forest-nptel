@@ -243,7 +243,7 @@ export default function StudyMaterial() {
       
       return matchesSearch && matchesWeek;
     });
-  }, [courseModules, searchQuery, selectedWeek]);
+  }, [searchQuery, selectedWeek]);
 
   const weeks = useMemo(() => {
     return Array.from(new Set(courseModules.map(module => module.resources.weekNumber))).sort((a, b) => a - b);
