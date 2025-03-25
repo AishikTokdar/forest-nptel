@@ -39,7 +39,7 @@ A modern web application for NPTEL Forest course learning and assessment, built 
 ### Prerequisites
 
 - Node.js 18.x or later
-- pnpm (recommended) or npm
+- npm or yarn
 - Git
 
 ### Local Development
@@ -52,29 +52,65 @@ cd forest-nptel
 
 2. Install dependencies:
 ```bash
-pnpm install
+npm install
+# or
+yarn install
 ```
 
 3. Run the development server:
 ```bash
-pnpm dev
+npm run dev
+# or
+yarn dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Available Scripts
 
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm start` - Start production server
-- `pnpm lint` - Run ESLint
-- `pnpm format` - Format code with Prettier
-- `pnpm format:check` - Check code formatting
-- `pnpm deps:check` - Check for dependency updates
-- `pnpm deps:update` - Update dependencies
-- `pnpm deps:clean` - Clean and reinstall dependencies
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
+- `npm run deps:check` - Check for dependency updates
+- `npm run deps:update` - Update dependencies
+- `npm run deps:clean` - Clean and reinstall dependencies
 
 ## Deployment
+
+### Deploying to Netlify
+
+#### Method 1: Deploy via Netlify UI (Recommended)
+
+1. Push your code to a GitHub repository
+2. Go to [Netlify](https://netlify.com)
+3. Click "New site from Git"
+4. Choose your repository
+5. Configure build settings:
+   - Build Command: `npm run build`
+   - Publish Directory: `.next`
+   - Node version: 18.x
+6. Click "Deploy site"
+
+#### Method 2: Deploy with Netlify CLI
+
+1. Install Netlify CLI globally:
+```bash
+npm install -g netlify-cli
+```
+
+2. Login to Netlify:
+```bash
+netlify login
+```
+
+3. Initialize and deploy:
+```bash
+netlify init
+netlify deploy --prod
+```
 
 ### Deploying to Vercel
 
@@ -85,21 +121,21 @@ pnpm dev
 5. Select the repository
 6. Configure project settings:
    - Framework Preset: Next.js
-   - Build Command: `pnpm build`
+   - Build Command: `npm run build`
    - Output Directory: `.next`
-   - Install Command: `pnpm install`
+   - Install Command: `npm install`
 7. Click "Deploy"
 
 ### Manual Deployment
 
 1. Build the application:
 ```bash
-pnpm build
+npm run build
 ```
 
 2. Start the production server:
 ```bash
-pnpm start
+npm start
 ```
 
 3. The application will be available at `http://localhost:3000`

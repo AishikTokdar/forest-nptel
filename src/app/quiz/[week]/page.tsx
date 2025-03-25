@@ -29,6 +29,11 @@ export default function QuizPage({ params }: { params: { week: string } }) {
         options: [...q.options].sort(() => Math.random() - 0.5),
       }));
     setQuestions(shuffled);
+    setUserAnswers({});
+    setQuizCompleted(false);
+    setScore(0);
+    setTimeSpent(0);
+    setStartTime(new Date());
   }, [week]);
 
   useEffect(() => {
@@ -82,13 +87,6 @@ export default function QuizPage({ params }: { params: { week: string } }) {
 
   useEffect(() => {
     shuffleQuestions();
-    setStartTime(new Date());
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = undefined;
-      }
-    };
   }, [week, shuffleQuestions]);
 
   const handleAnswerSelect = (questionIndex: number, answer: string) => {
@@ -98,6 +96,8 @@ export default function QuizPage({ params }: { params: { week: string } }) {
   };
 
   const handleQuizSubmit = () => {
+    if (quizCompleted) return;
+    
     const newScore = questions.reduce((acc, question, index) => {
       return acc + (userAnswers[index] === question.answer ? 1 : 0);
     }, 0);
@@ -110,21 +110,6 @@ export default function QuizPage({ params }: { params: { week: string } }) {
   };
 
   const handleRedoQuiz = () => {
-    setUserAnswers({});
-    setQuizCompleted(false);
-    setScore(0);
-    setTimeSpent(0);
-    setStartTime(new Date());
-    lastActiveTimeRef.current = null;
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = undefined;
-    }
-    if (document.visibilityState === 'visible') {
-      timerRef.current = setInterval(() => {
-        setTimeSpent(prev => prev + 1);
-      }, 1000);
-    }
     shuffleQuestions();
     window.scrollTo(0, 0);
   };
