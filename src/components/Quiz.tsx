@@ -1,40 +1,78 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Question } from "@/types/Question";
 import { Check, X, RefreshCcw } from "lucide-react";
+import { logger } from '@/utils/logger';
 
 interface QuizProps {
   questions: Question[];
   onComplete: (score: number) => void;
+  week: number;
 }
 
-const Quiz: React.FC<QuizProps> = ({ questions, onComplete }) => {
+const Quiz: React.FC<QuizProps> = ({ questions, onComplete, week }) => {
   const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [score, setScore] = useState(0);
 
   const shuffleQuestions = useCallback(() => {
-    const shuffled = [...questions].sort(() => Math.random() - 0.5);
-    setShuffledQuestions(
-      shuffled.map((q) => ({
-        ...q,
-        options: [...q.options].sort(() => Math.random() - 0.5),
-      }))
-    );
-    setUserAnswers({});
-    setQuizCompleted(false);
-    setScore(0);
-  }, [questions]);
+    try {
+      const shuffled = [...questions].sort(() => Math.random() - 0.5);
+      setShuffledQuestions(
+        shuffled.map((q) => ({
+          ...q,
+          options: [...q.options].sort(() => Math.random() - 0.5),
+        }))
+      );
+      setUserAnswers({});
+      setQuizCompleted(false);
+      setScore(0);
+      logger.info('Questions shuffled', { 
+        week,
+        totalQuestions: shuffled.length 
+      });
+    } catch (error) {
+      logger.error('Error shuffling questions', {
+        week,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  }, [questions, week]);
 
   useEffect(() => {
     shuffleQuestions();
   }, [shuffleQuestions]);
 
-  const handleAnswerSelect = (questionIndex: number, answer: string) => {
-    setUserAnswers((prev) => ({ ...prev, [questionIndex]: answer }));
+  const handleAnswerSelect = (questionIndex: number, selectedOption: string) => {
+    try {
+      if (quizCompleted) {
+        logger.warn('Attempted to answer after quiz completion', { 
+          week,
+          questionIndex 
+        });
+        return;
+      }
+
+      const newAnswers = [...userAnswers];
+      newAnswers[questionIndex] = selectedOption;
+      setUserAnswers(newAnswers);
+
+      logger.info('Answer selected', {
+        week,
+        questionIndex,
+        totalAnswered: newAnswers.filter(Boolean).length
+      });
+    } catch (error) {
+      logger.error('Error selecting answer', {
+        week,
+        questionIndex,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
   };
 
   const handleQuizSubmit = () => {
+    try {
     const newScore = shuffledQuestions.reduce((acc, question, index) => {
       return acc + (userAnswers[index] === question.answer ? 1 : 0);
     }, 0);

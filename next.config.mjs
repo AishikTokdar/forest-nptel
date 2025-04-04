@@ -14,6 +14,28 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   webpack: (config, { dev, isServer }) => {
+    // Ignore warnings for platform-specific packages
+    config.ignoreWarnings = [
+      // Next.js SWC packages
+      { module: /node_modules\/@next\/swc-.*/ },
+      // Netlify esbuild packages
+      { module: /node_modules\/@netlify\/esbuild-.*/ },
+      // Parcel watcher packages
+      { module: /node_modules\/@parcel\/watcher-.*/ },
+      // FSEvents (macOS-specific)
+      { module: /node_modules\/fsevents/ },
+      // Ignore punycode deprecation warning
+      { message: /\[DEP0040\]/ },
+    ];
+
+    // Handle punycode module
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        punycode: 'punycode/',
+      };
+    }
+
     // Optimize bundle size
     config.optimization = {
       ...config.optimization,

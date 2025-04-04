@@ -2,10 +2,15 @@
 
 import { questionsByWeek } from "@/data/questions";
 import { ArrowLeft, Check, X, RefreshCw, Timer, Award, Brain } from "lucide-react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Question } from "@/types/Question";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { logger } from '@/utils/logger';
+
+// Progress storage key generator
+const getProgressKey = (week: string) => `quiz_progress_${week}`;
+const PROGRESS_EXPIRY_TIME = 15 * 60 * 1000; // 15 minutes in milliseconds
 
 export default function QuizPage({ params }: { params: { week: string } }) {
   const week = params.week;
@@ -19,7 +24,34 @@ export default function QuizPage({ params }: { params: { week: string } }) {
   const timerRef = useRef<NodeJS.Timeout>();
   const lastActiveTimeRef = useRef<Date | null>(null);
 
-  const shuffleQuestions = useCallback(() => {
+  // Load saved progress with expiry check
+  useEffect(() => {
+    const savedProgress = localStorage.getItem(getProgressKey(week));
+    if (savedProgress) {
+      const { answers, timestamp } = JSON.parse(savedProgress);
+      const now = new Date().getTime();
+      if (now - timestamp < PROGRESS_EXPIRY_TIME) {
+        setUserAnswers(answers);
+      } else {
+        localStorage.removeItem(getProgressKey(week));
+      }
+    }
+  }, [week]);
+
+  // Save progress with timestamp
+  useEffect(() => {
+    if (Object.keys(userAnswers).length > 0) {
+      localStorage.setItem(
+        getProgressKey(week),
+        JSON.stringify({
+          answers: userAnswers,
+          timestamp: new Date().getTime()
+        })
+      );
+    }
+  }, [userAnswers, week]);
+
+  const shuffleQuestions = () => {
     const allQuestions =
       week === "all" ? Object.values(questionsByWeek).flat() : questionsByWeek[week] || [];
     const shuffled = allQuestions
@@ -34,7 +66,8 @@ export default function QuizPage({ params }: { params: { week: string } }) {
     setScore(0);
     setTimeSpent(0);
     setStartTime(new Date());
-  }, [week]);
+    localStorage.removeItem(getProgressKey(week));
+  };
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -86,32 +119,90 @@ export default function QuizPage({ params }: { params: { week: string } }) {
   }, [quizCompleted]);
 
   useEffect(() => {
-    shuffleQuestions();
-  }, [week, shuffleQuestions]);
+    try {
+      const allQuestions =
+        week === "all" ? Object.values(questionsByWeek).flat() : questionsByWeek[week] || [];
+      
+      if (!allQuestions || allQuestions.length === 0) {
+        logger.error('Failed to load questions', { week, questionsCount: 0 });
+        return;
+      }
+
+      const shuffled = allQuestions
+        .sort(() => Math.random() - 0.5)
+        .map((q) => ({
+          ...q,
+          options: [...q.options].sort(() => Math.random() - 0.5),
+        }));
+      setQuestions(shuffled);
+      logger.info('Questions loaded successfully', { 
+        week, 
+        questionsCount: shuffled.length 
+      });
+    } catch (error) {
+      logger.error('Error shuffling questions', { 
+        week, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  }, [week]);
 
   const handleAnswerSelect = (questionIndex: number, answer: string) => {
-    if (!quizCompleted) {
-      setUserAnswers((prev) => ({ ...prev, [questionIndex]: answer }));
+    try {
+      if (!quizCompleted) {
+        setUserAnswers((prev) => ({ ...prev, [questionIndex]: answer }));
+        logger.info('Answer selected', { 
+          questionIndex, 
+          isCorrect: answer === questions[questionIndex].answer 
+        });
+      }
+    } catch (error) {
+      logger.error('Error selecting answer', { 
+        questionIndex, 
+        answer, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
     }
   };
 
   const handleQuizSubmit = () => {
-    if (quizCompleted) return;
-    
-    const newScore = questions.reduce((acc, question, index) => {
-      return acc + (userAnswers[index] === question.answer ? 1 : 0);
-    }, 0);
-    setScore(newScore);
-    setQuizCompleted(true);
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
+    try {
+      if (quizCompleted) return;
+      
+      const newScore = questions.reduce((acc, question, index) => {
+        return acc + (userAnswers[index] === question.answer ? 1 : 0);
+      }, 0);
+      setScore(newScore);
+      setQuizCompleted(true);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      window.scrollTo(0, 0);
+
+      logger.info('Quiz completed', { 
+        score: newScore, 
+        totalQuestions: questions.length,
+        timeSpent 
+      });
+    } catch (error) {
+      logger.error('Error submitting quiz', { 
+        error: error instanceof Error ? error.message : 'Unknown error',
+        answers: userAnswers 
+      });
     }
-    window.scrollTo(0, 0);
   };
 
   const handleRedoQuiz = () => {
-    shuffleQuestions();
-    window.scrollTo(0, 0);
+    try {
+      shuffleQuestions();
+      window.scrollTo(0, 0);
+      logger.info('Quiz reset', { week });
+    } catch (error) {
+      logger.error('Error resetting quiz', { 
+        week,
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
   };
 
   const weekTitle = week === "all" ? "All Weeks" : `Week ${week.replace("week", "")}`;
@@ -136,25 +227,44 @@ export default function QuizPage({ params }: { params: { week: string } }) {
     return "text-red-400";
   };
 
+  const calculateProgress = () => {
+    const answeredQuestions = Object.keys(userAnswers).length;
+    return (answeredQuestions / questions.length) * 100;
+  };
+
   return (
     <div className="min-h-screen bg-black text-gray-300 py-12 px-4 sm:px-6 lg:px-8 relative">
-      {/* Floating Timer */}
+      {/* Floating Timer and Progress Bar */}
       {!quizCompleted && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           className="fixed left-4 top-1/2 -translate-y-1/2 bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-lg p-4 shadow-lg z-50"
         >
-          <div className="flex flex-col items-center space-y-2">
-            <Timer className={`w-6 h-6 ${isTabActive ? 'text-blue-400' : 'text-gray-500'}`} />
-            <div className={`text-xl font-mono font-bold ${isTabActive ? 'text-blue-400' : 'text-gray-500'}`}>
-              {formatTime(timeSpent)}
-            </div>
-            {!isTabActive && (
-              <div className="text-xs text-gray-500 mt-1">
-                Timer paused
+          <div className="flex flex-col items-center space-y-4">
+            {/* Timer */}
+            <div className="flex flex-col items-center space-y-2">
+              <Timer className={`w-6 h-6 ${isTabActive ? 'text-blue-400' : 'text-gray-500'}`} />
+              <div className={`text-xl font-mono font-bold ${isTabActive ? 'text-blue-400' : 'text-gray-500'}`}>
+                {formatTime(timeSpent)}
               </div>
-            )}
+              {!isTabActive && (
+                <div className="text-xs text-gray-500 mt-1">
+                  Timer paused
+                </div>
+              )}
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-32 bg-gray-800/50 rounded-full h-2 overflow-hidden backdrop-blur-sm">
+              <div
+                className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+                style={{ width: `${calculateProgress()}%` }}
+              />
+            </div>
+            <div className="text-sm text-gray-400 text-center">
+              {Object.keys(userAnswers).length}/{questions.length}
+            </div>
           </div>
         </motion.div>
       )}

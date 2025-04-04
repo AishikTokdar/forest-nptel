@@ -5,6 +5,8 @@ import { Book, CheckCircle, Shuffle, LayoutGrid, List, Search } from "lucide-rea
 import Link from "next/link";
 import { useVirtualizer } from '@tanstack/react-virtual';
 import debounce from 'lodash/debounce';
+import { logger } from '@/utils/logger';
+import { questionsByWeek } from '@/data/questions';
 
 // Memoized WeekCard component with performance optimizations
 const WeekCard = React.memo(({ week, totalQuestions }: { week: string; totalQuestions: number }) => {
@@ -157,6 +159,54 @@ export default function QuizWeekSelector() {
     estimateSize: () => 100,
     overscan: 5,
   });
+
+  useEffect(() => {
+    try {
+      const weeks = Object.keys(questionsByWeek)
+        .filter(week => week.startsWith('week'))
+        .sort((a, b) => {
+          const weekA = parseInt(a.replace('week', ''));
+          const weekB = parseInt(b.replace('week', ''));
+          return weekA - weekB;
+        });
+      
+      logger.info('Quiz weeks loaded', { 
+        totalWeeks: weeks.length,
+        weeks 
+      });
+    } catch (error) {
+      logger.error('Error loading quiz weeks', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  }, []);
+
+  const getQuestionsCountForWeek = (week: string) => {
+    try {
+      const questions = questionsByWeek[week] || [];
+      return questions.length;
+    } catch (error) {
+      logger.error('Error getting questions count', {
+        week,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      return 0;
+    }
+  };
+
+  const handleWeekSelect = (week: string) => {
+    try {
+      logger.info('Week selected', { 
+        week,
+        questionsCount: getQuestionsCountForWeek(week) 
+      });
+    } catch (error) {
+      logger.error('Error selecting week', {
+        week,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black relative">
