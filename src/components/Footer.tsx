@@ -1,4 +1,4 @@
-import { Github, Twitter, Linkedin } from 'lucide-react';
+import { Github } from 'lucide-react';
 import Link from 'next/link';
 
 const Footer = () => {
@@ -68,24 +68,9 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                aria-label="View source code on GitHub"
               >
                 <Github size={24} />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                <Twitter size={24} />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                <Linkedin size={24} />
               </a>
             </div>
           </div>

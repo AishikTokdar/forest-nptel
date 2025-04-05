@@ -146,6 +146,13 @@ const ModuleCard = ({ module, index, isExpanded, onToggle, searchQuery }: {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onToggle();
+    }
+  };
+
   const filteredTopics = useMemo(() => {
     if (!searchQuery) return module.topics;
     return module.topics.filter(topic => 
@@ -160,9 +167,12 @@ const ModuleCard = ({ module, index, isExpanded, onToggle, searchQuery }: {
       transition={{ delay: index * 0.1 }}
       className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden hover:border-green-500/30 transition-colors"
     >
-      <div
-        className="p-6 cursor-pointer"
+      <button
+        className="w-full p-6 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500/50"
         onClick={onToggle}
+        onKeyDown={handleKeyDown}
+        aria-expanded={isExpanded}
+        aria-controls={`module-content-${index}`}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -174,13 +184,13 @@ const ModuleCard = ({ module, index, isExpanded, onToggle, searchQuery }: {
             </h3>
           </div>
           {isExpanded ? (
-            <ChevronDown className="text-gray-400 w-5 h-5" />
+            <ChevronDown className="text-gray-400 w-5 h-5" aria-hidden="true" />
           ) : (
-            <ChevronRight className="text-gray-400 w-5 h-5" />
+            <ChevronRight className="text-gray-400 w-5 h-5" aria-hidden="true" />
           )}
         </div>
         <p className="mt-2 text-gray-400">{module.description}</p>
-      </div>
+      </button>
 
       <AnimatePresence>
         {isExpanded && (
@@ -190,6 +200,9 @@ const ModuleCard = ({ module, index, isExpanded, onToggle, searchQuery }: {
             exit={{ height: 0 }}
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
+            id={`module-content-${index}`}
+            role="region"
+            aria-labelledby={`module-title-${index}`}
           >
             <div className="px-6 pb-6">
               <div className="mb-6">
@@ -197,26 +210,29 @@ const ModuleCard = ({ module, index, isExpanded, onToggle, searchQuery }: {
                 <ul className="space-y-2">
                   {filteredTopics.map((topic, i) => (
                     <li key={i} className="text-gray-400 flex items-center group">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-400 mr-2" />
-                      <span className="group-hover:text-white transition-colors">{topic}</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-400 mr-2" aria-hidden="true" />
+                      <span>{topic}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               <div className="flex space-x-4">
-                <button 
+                <button
                   onClick={() => handleResourceClick(module.resources.pdfUrl)}
-                  className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg bg-green-600/20 hover:bg-green-600/30 text-green-400 transition-colors"
+                  className="flex items-center px-4 py-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/50"
+                  aria-label={`View PDF for ${module.title}`}
                 >
-                  <FileText className="w-5 h-5" />
-                  <span>View Notes</span>
+                  <FileText className="w-4 h-4 mr-2" aria-hidden="true" />
+                  View PDF
                 </button>
-                <button 
+                <button
                   onClick={() => handleResourceClick(module.resources.pdfUrl, true)}
-                  className="flex items-center justify-center px-4 py-3 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 transition-colors"
+                  className="flex items-center px-4 py-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/50"
+                  aria-label={`Download PDF for ${module.title}`}
                 >
-                  <Download className="w-5 h-5" />
+                  <Download className="w-4 h-4 mr-2" aria-hidden="true" />
+                  Download
                 </button>
               </div>
             </div>

@@ -11,7 +11,7 @@ interface QuizProps {
 
 const Quiz: React.FC<QuizProps> = ({ questions, onComplete, week }) => {
   const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
-  const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
+  const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [score, setScore] = useState(0);
 
@@ -24,7 +24,7 @@ const Quiz: React.FC<QuizProps> = ({ questions, onComplete, week }) => {
           options: [...q.options].sort(() => Math.random() - 0.5),
         }))
       );
-      setUserAnswers({});
+      setUserAnswers([]);
       setQuizCompleted(false);
       setScore(0);
       logger.info('Questions shuffled', { 
@@ -73,12 +73,23 @@ const Quiz: React.FC<QuizProps> = ({ questions, onComplete, week }) => {
 
   const handleQuizSubmit = () => {
     try {
-    const newScore = shuffledQuestions.reduce((acc, question, index) => {
-      return acc + (userAnswers[index] === question.answer ? 1 : 0);
-    }, 0);
-    setScore(newScore);
-    setQuizCompleted(true);
-    onComplete(newScore);
+      const newScore = shuffledQuestions.reduce((acc, question, index) => {
+        return acc + (userAnswers[index] === question.answer ? 1 : 0);
+      }, 0);
+      setScore(newScore);
+      setQuizCompleted(true);
+      onComplete(newScore);
+      logger.info('Quiz submitted', {
+        week,
+        score: newScore,
+        totalQuestions: shuffledQuestions.length
+      });
+    } catch (error) {
+      logger.error('Error submitting quiz', {
+        week,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
   };
 
   return (

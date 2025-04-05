@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { questionsByWeek } from "@/data/questions";
 import { ArrowLeft, ArrowRight, Check, X, Timer, Award, CheckCircle2, XCircle } from "lucide-react";
 import Link from "next/link";
@@ -23,30 +23,30 @@ export default function MixedQuiz() {
   const autoAdvanceRef = useRef<NodeJS.Timeout>();
   const lastActiveTimeRef = useRef<Date | null>(null);
 
-  // Add error handling to question initialization
-  useEffect(() => {
+  // Define handleNext first
+  const handleNext = useCallback(() => {
     try {
-      const allQuestions = Object.values(questionsByWeek).flat();
-      
-      if (!allQuestions || allQuestions.length === 0) {
-        logger.error('Failed to load questions for mixed quiz', { questionsCount: 0 });
-        return;
+      if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex(prev => prev + 1);
+        setAutoAdvanceCountdown(null);
+        logger.info('Navigated to next question', { 
+          newIndex: currentQuestionIndex + 1 
+        });
       }
-
-      const shuffled = allQuestions
-        .sort(() => Math.random() - 0.5)
-        .map(q => ({
-          ...q,
-          options: [...q.options].sort(() => Math.random() - 0.5),
-        }));
-      setQuestions(shuffled);
-      logger.info('Mixed quiz questions loaded', { questionsCount: shuffled.length });
     } catch (error) {
-      logger.error('Error initializing mixed quiz', {
+      logger.error('Error navigating to next question', {
+        currentIndex: currentQuestionIndex,
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
-  }, []);
+  }, [currentQuestionIndex, questions.length]);
+
+  const startTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setTimeSpent(prev => prev + 1);
+    }, 1000);
+  };
 
   // Timer effect
   useEffect(() => {
@@ -82,17 +82,11 @@ export default function MixedQuiz() {
       };
     } catch (error) {
       logger.error('Error in timer management', {
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timeSpent
       });
     }
-  }, []);
-
-  const startTimer = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      setTimeSpent(prev => prev + 1);
-    }, 1000);
-  };
+  }, [timeSpent]);
 
   // Auto-advance effect
   useEffect(() => {
@@ -123,7 +117,32 @@ export default function MixedQuiz() {
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
-  }, [userAnswers, currentQuestionIndex]);
+  }, [userAnswers, currentQuestionIndex, handleNext, questions.length]);
+
+  // Add error handling to question initialization
+  useEffect(() => {
+    try {
+      const allQuestions = Object.values(questionsByWeek).flat();
+      
+      if (!allQuestions || allQuestions.length === 0) {
+        logger.error('Failed to load questions for mixed quiz', { questionsCount: 0 });
+        return;
+      }
+
+      const shuffled = allQuestions
+        .sort(() => Math.random() - 0.5)
+        .map(q => ({
+          ...q,
+          options: [...q.options].sort(() => Math.random() - 0.5),
+        }));
+      setQuestions(shuffled);
+      logger.info('Mixed quiz questions loaded', { questionsCount: shuffled.length });
+    } catch (error) {
+      logger.error('Error initializing mixed quiz', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  }, []);
 
   // Add error handling to answer selection
   const handleAnswerSelect = (answer: string) => {
@@ -153,24 +172,6 @@ export default function MixedQuiz() {
       logger.error('Error selecting answer in mixed quiz', {
         questionIndex: currentQuestionIndex,
         answer,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-  };
-
-  // Add error handling to navigation
-  const handleNext = () => {
-    try {
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(prev => prev + 1);
-        setAutoAdvanceCountdown(null);
-        logger.info('Navigated to next question', { 
-          newIndex: currentQuestionIndex + 1 
-        });
-      }
-    } catch (error) {
-      logger.error('Error navigating to next question', {
-        currentIndex: currentQuestionIndex,
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
